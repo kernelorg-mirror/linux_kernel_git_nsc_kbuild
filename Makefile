@@ -1954,6 +1954,9 @@ KBUILD_MODULES :=
 
 endif # CONFIG_MODULES
 
+built-modules = $(patsubst %.o,%.ko,\
+	$(call read-file, $(or $(KBUILD_EXTMOD),$(objtree))/modules.order))
+
 PHONY += modpost
 modpost: $(if $(single-build),, $(if $(KBUILD_BUILTIN), vmlinux.o)) \
 	 $(if $(KBUILD_MODULES), modules_check)

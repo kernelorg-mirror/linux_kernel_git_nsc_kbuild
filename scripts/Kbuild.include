@@ -75,6 +75,21 @@ read-file = $(shell cat $1 2>/dev/null)
 endif
 
 ###
+# Write to a file (truncate)
+#
+# Make 4.2 or later can write to a file by using its builtin function.
+contains-single-quote = $(and $(findstring ',$(1)),y)
+error-on-single-quote = $(if $(call contains-single-quote, $(1)),\
+	$(error write-file cannot handle single-quotes in its text argument (second argument)))
+ifneq ($(filter-out 4.0 4.1, $(MAKE_VERSION)),)
+write-file = $(call error-on-single-quote,$(2))$(file > $1,$2)
+else
+write-file = $(call error-on-single-quote,$(2))\
+	$(if $(shell printf "%s\n" '$(2)' >$(1) 2>/dev/null || echo fail),\
+	     $(error write-file: Writing to $(1) failed))
+endif
+
+###
 # Easy method for doing a status message
        kecho := :
  quiet_kecho := echo

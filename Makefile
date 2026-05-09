@@ -1692,7 +1692,8 @@ CLEAN_FILES += vmlinux.symvers modules-only.symvers \
 	       modules.builtin.ranges vmlinux.o.map vmlinux.unstripped \
 	       compile_commands.json rust/test \
 	       rust-project.json .vmlinux.objs .vmlinux.export.c \
-               .builtin-dtbs-list .builtin-dtbs.S
+               .builtin-dtbs-list .builtin-dtbs.S \
+	       scripts/rustc-wrapper
 
 # Directories & files removed with 'make mrproper'
 MRPROPER_FILES += include/config include/generated          \

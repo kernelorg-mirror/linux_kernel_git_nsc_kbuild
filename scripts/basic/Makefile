@@ -19,3 +19,25 @@ always-$(CONFIG_RANDSTRUCT) += randstruct.seed
 $(obj)/../../include/generated/integer-wrap.h: $(srctree)/scripts/integer-wrap-ignore.scl FORCE
 	$(call if_changed,touch)
 always-$(CONFIG_UBSAN_INTEGER_WRAP) += ../../include/generated/integer-wrap.h
+
+# rustc-wrapper: rustc's `-Clinker=` expects a single executable path, not a
+# command line.  `HOSTCC` may be a multi-word command when wrapped (e.g.
+# "ccache gcc"), which would otherwise be split by the shell and mis-parsed by
+# rustc.  To work around this, we generate a script that invokes `HOSTRUSTC_LD`
+# with the linker arguments appended so such commands can be used safely.
+#
+# Set `HOSTRUSTC_LD` for a different rustc linker command than `HOSTCC`
+HOSTRUSTC_LD ?= $(HOSTCC)
+
+quiet_cmd_rustc-wrapper = GEN     $@
+      cmd_rustc-wrapper = \
+	      printf '%s\n' '\#!/bin/sh' '$(addsuffix $(space),$(HOSTRUSTC_LD))"$$@"' >$@; \
+	      chmod a+x $@
+
+$(obj)/rustc-wrapper: FORCE
+	$(call if_changed,rustc-wrapper)
+
+always-$(CONFIG_RUST) += rustc-wrapper
+ifneq ($(CONFIG_RUST),)
+targets += rustc-wrapper
+endif

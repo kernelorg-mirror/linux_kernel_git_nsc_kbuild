@@ -661,6 +661,7 @@ export RCS_FIND_IGNORE := \( -name SCCS -o -name BitKeeper -o -name .svn -o    \
 PHONY += scripts_basic
 scripts_basic: KBUILD_HOSTCFLAGS := $(KBUILD_HOSTCFLAGS)
 scripts_basic: KBUILD_HOSTLDFLAGS := $(KBUILD_HOSTLDFLAGS)
+scripts_basic: HOSTRUSTC_LD := $(HOSTRUSTC_LD)
 scripts_basic:
 	$(Q)$(MAKE) $(build)=scripts/basic
 
@@ -1692,8 +1693,7 @@ CLEAN_FILES += vmlinux.symvers modules-only.symvers \
 	       modules.builtin.ranges vmlinux.o.map vmlinux.unstripped \
 	       compile_commands.json rust/test \
 	       rust-project.json .vmlinux.objs .vmlinux.export.c \
-               .builtin-dtbs-list .builtin-dtbs.S \
-	       scripts/rustc-wrapper
+               .builtin-dtbs-list .builtin-dtbs.S
 
 # Directories & files removed with 'make mrproper'
 MRPROPER_FILES += include/config include/generated          \

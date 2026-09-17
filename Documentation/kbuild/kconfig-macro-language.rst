@@ -35,7 +35,7 @@ file like this::
     CC := gcc
 
     config CC_HAS_FOO
-            def_bool $(shell, $(srctree)/scripts/gcc-check-foo.sh $(CC))
+            def_bool $(shell,$(srctree)/scripts/gcc-check-foo.sh $(CC))
 
 The macro language in Kconfig processes the source file into the following
 intermediate::
@@ -185,13 +185,13 @@ this is _useful_ inconsistency.
 In Kconfig, for simpler implementation and grammatical consistency, commas that
 appear in the $( ) context are always delimiters. It means::
 
-  $(shell, echo hello, world)
+  $(shell,echo hello, world)
 
 is an error because it is passing two parameters where the 'shell' function
 accepts only one. To pass commas in arguments, you can use the following trick::
 
   comma := ,
-  $(shell, echo hello$(comma) world)
+  $(shell,echo hello$(comma) world)
 
 
 Caveats

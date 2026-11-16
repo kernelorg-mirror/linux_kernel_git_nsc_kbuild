@@ -48,7 +48,6 @@ install_linux_image () {
 		gzip "${pdir}/usr/share/doc/${pname}/config"
 	else
 		mkdir -p "${pdir}/boot"
-		cp System.map "${pdir}/boot/System.map-${KERNELRELEASE}"
 		cp ${KCONFIG_CONFIG} "${pdir}/boot/config-${KERNELRELEASE}"
 	fi
 

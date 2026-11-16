@@ -90,9 +90,8 @@ _package-headers() {
 		"${srctree}/scripts/package/install-extmod-build" "${builddir}"
 	fi
 
-	echo "Installing System.map and config..."
+	echo "Installing config..."
 	mkdir -p "${builddir}"
-	cp System.map "${builddir}/System.map"
 	cp .config "${builddir}/.config"
 
 	echo "Adding symlink..."
